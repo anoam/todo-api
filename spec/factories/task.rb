@@ -1,3 +1,7 @@
 FactoryBot.define do
-  factory :task
+  factory :task do
+    trait :completed do
+      completed_at Time.now
+    end
+  end
 end

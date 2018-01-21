@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+
   def index()
     @collection = Board.all
     render json: @collection
