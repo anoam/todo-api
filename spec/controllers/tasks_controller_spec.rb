@@ -90,9 +90,9 @@ RSpec.describe TasksController, type: :controller do
 
 
     it 'returns object' do
-      board = create(:task, title: 'title', description: 'descr')
+      task = create(:task, title: 'title', description: 'descr', board_id: board.id)
 
-      get :show, id: board.id, board_id: board.id
+      get :show, id: task.id, board_id: task.id
 
       expect(response.status).to eql(200)
       expect(data['title']).to eql('title')
