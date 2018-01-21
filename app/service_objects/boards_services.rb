@@ -14,6 +14,6 @@ module BoardsServices
   end
 
   def self.delete_service(id)
-    Delete.new(id)
+    Delete.new(id).tap { |s| s.send(:run) }
   end
 end

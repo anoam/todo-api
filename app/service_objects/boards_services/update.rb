@@ -16,11 +16,11 @@ module BoardsServices
     end
 
     def board
-      @board ||= find_service.board.tap { |board| board.update(board) }
+      @board ||= find_service.board.tap { |board| board.update(params) }
     end
 
-    def error
-      board.errors.full_message
+    def errors
+      board.errors.full_messages
     end
 
     private

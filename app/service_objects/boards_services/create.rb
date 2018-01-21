@@ -15,7 +15,7 @@ module BoardsServices
     end
 
     def errors
-      @errors ||= board.errors.full_message
+      @errors ||= board.errors.full_messages
     end
 
     private

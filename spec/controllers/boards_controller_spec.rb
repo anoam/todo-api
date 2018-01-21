@@ -37,7 +37,6 @@ RSpec.describe BoardsController, type: :controller do
 
   describe '#GET show' do
     it 'returns error if object not exists' do
-      pending 'legacy'
       get :show, id: 42
 
       expect(response.status).to eql(404)
@@ -58,16 +57,13 @@ RSpec.describe BoardsController, type: :controller do
 
   describe '#POST create' do
     it 'fails on invalid params' do
-      pending 'legacy'
-
-      post :create, board: {  }
+      post :create, board: { title: '' }
       expect(response.status).to eql(422)
-      expect(json_response['errors']).to include('title')
-      expect(json_response['errors']).to include('description')
+      expect(json_response['errors']).to include("Title can't be blank")
+      expect(json_response['errors']).to include("Description can't be blank")
     end
 
     it 'creates response with new board' do
-      pending 'legacy'
       post :create, board: { title: 'my title', description: 'my descr' }
 
       expect(response.status).to eql(201)
@@ -87,7 +83,6 @@ RSpec.describe BoardsController, type: :controller do
     let(:board) { create(:board, title: 'my title', description: 'my descr') }
 
     it 'return error if object not found' do
-      pending 'legacy'
       patch :update, id: 0, board: { title: '' }
 
       expect(response.status).to eql(404)
@@ -95,15 +90,13 @@ RSpec.describe BoardsController, type: :controller do
     end
 
     it 'fails on invalid params' do
-      pending 'legacy'
       patch :update, id: board.id, board: { title: '' }
       expect(response.status).to eql(422)
-      expect(errors).to include('title invalid')
+      expect(errors).to include("Title can't be blank")
     end
 
     it 'updates response with updated object' do
-      pending 'legacy'
-      patch :update, board: { title: 'new title' }
+      patch :update, id: board.id, board: { title: 'new title' }
       expect(response.status).to eql(200)
 
       expect(data['title']).to eql('new title')
@@ -111,7 +104,6 @@ RSpec.describe BoardsController, type: :controller do
     end
 
     it 'updates attributes' do
-      pending 'legacy'
 
       expect { patch(:update, id: board.id, board: { description: 'new descr' }) }
         .to change { Board.find(board.id).description }
@@ -122,7 +114,6 @@ RSpec.describe BoardsController, type: :controller do
     let(:board) { create(:board) }
 
     it 'return error if object not found' do
-      pending 'legacy'
       delete :destroy, id: 0
 
       expect(response.status).to eql(404)
@@ -135,7 +126,6 @@ RSpec.describe BoardsController, type: :controller do
     end
 
     it 'response with 204' do
-      pending 'legacy'
 
       delete :destroy, id: board.id
       expect(response.status).to be(204)

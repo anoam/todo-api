@@ -14,14 +14,13 @@ module BoardsServices
       board.destroyed?
     end
 
-    # for legacy
-    def board
+    private
+    attr_reader :id
+
+    def run
       return unless found?
       find_service.board.tap(&:destroy)
     end
-
-    private
-    attr_reader :id
 
     def find_service
       @find_service ||= Find.new(id)
