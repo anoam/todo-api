@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   def index
-    render json: { total_boards: dashboard_service.total_boards, total_tasks: dashboard_service.total_tasks, total_incomplete_tasks: dashboard_service.total_incomplete_tasks }
+    render_success total_boards: dashboard_service.total_boards, total_tasks: dashboard_service.total_tasks, total_incomplete_tasks: dashboard_service.total_incomplete_tasks
   end
 
   private

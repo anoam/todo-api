@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
-  let (:data) { json_response }
+  let (:data) { json_response["data"] }
   let (:errors) { json_response["errors"] }
 
   describe '#GET index' do

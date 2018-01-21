@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   private
 
   def render_success(data, status = :ok)
-    render json: data, status: status
+    render json: { data: data }, status: status
   end
 
   def render_error(errors, status)

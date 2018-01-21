@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DashboardController, type: :controller do
   describe '#GET index' do
-    let(:data) { json_response }
+    let(:data) { json_response["data"] }
 
     it 'returns data for one board' do
       board1 = create(:board)
