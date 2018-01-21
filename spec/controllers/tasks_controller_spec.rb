@@ -82,7 +82,7 @@ RSpec.describe TasksController, type: :controller do
 
     it 'returns error if object not exists' do
       pending 'legacy'
-      get :show, id: 42, board_id: board.id
+      get :show, id: 42
 
       expect(response.status).to eql(404)
       expect(errors).to include('task not found')
@@ -92,7 +92,7 @@ RSpec.describe TasksController, type: :controller do
     it 'returns object' do
       task = create(:task, title: 'title', description: 'descr', board_id: board.id)
 
-      get :show, id: task.id, board_id: task.id
+      get :show, id: task.id
 
       expect(response.status).to eql(200)
       expect(data['title']).to eql('title')
@@ -146,7 +146,7 @@ RSpec.describe TasksController, type: :controller do
 
     it 'returns error if object not exists' do
       pending 'legacy'
-      get :show, id: 42, board_id: board.id
+      get :show, id: 42
 
       expect(response.status).to eql(404)
       expect(errors).to include('task not found')
@@ -155,7 +155,7 @@ RSpec.describe TasksController, type: :controller do
     it 'returns error if  task already completed' do
       pending 'legacy'
       task = create(:task, :completed, board_id: board.id)
-      post :complete, id: task.id, board_id: board.id
+      post :complete, id: task.id
 
       expect(response.status).to eql(422)
       expect(errors).to include('already completed')
@@ -163,7 +163,7 @@ RSpec.describe TasksController, type: :controller do
 
     it "returns task" do
       task = create(:task, board_id: board.id)
-      post :complete, id: task.id, board_id: board.id
+      post :complete, id: task.id
 
       expect(response.status).to eql(200)
       expect(data["completed_at"]).not_to be_nil
@@ -182,18 +182,18 @@ RSpec.describe TasksController, type: :controller do
     context 'when task not exists' do
       it 'returns error' do
         pending 'legacy'
-        patch :update, id: 0, board_id: board.id, task: { description: 'new descr' }
+        patch :update, id: 0, task: { description: 'new descr' }
         expect(response.status).to eql(404)
         expect(errors).to include("task not found")
       end
     end
 
     context 'when task exists' do
-      let(:task) { create(:task, board_id: board.id, title: 'my title', description: 'my description') }
+      let(:task) { create(:task, title: 'my title', description: 'my description', board_id: board.id) }
 
       it 'fails on invalid params' do
         pending 'legacy'
-        patch :update, id: task.id, board_id: board.id, task: { title: '' }
+        patch :update, id: task.id, task: { title: '' }
         expect(response.status).to eql(422)
         expect(errors).to include('title invalid')
       end
@@ -208,7 +208,7 @@ RSpec.describe TasksController, type: :controller do
       end
 
       it 'updates attributes' do
-        expect { patch(:update, id: task.id, board_id: board.id, task: { description: 'new descr' }) }
+        expect { patch(:update, id: task.id, task: { description: 'new descr' }) }
             .to change { Task.find(task.id).description }.from('my description').to('new descr')
       end
     end
@@ -220,21 +220,21 @@ RSpec.describe TasksController, type: :controller do
 
     it 'return error if object not found' do
       pending 'legacy'
-      delete :destroy, id: 0, board_id: board.id
+      delete :destroy, id: 0
 
       expect(response.status).to eql(404)
       expect(errors).to include('task not found')
     end
 
     it 'deletes board' do
-      expect { delete(:destroy, id: task.id, board_id: board.id) }
+      expect { delete(:destroy, id: task.id) }
           .to change { Task.find_by(id: task.id) }.to nil
     end
 
     it 'response with 204' do
       pending 'legacy'
 
-      delete :destroy, id: task.id, board_id: board.id
+      delete :destroy, id: task.id
       expect(response.status).to be(204)
     end
   end
