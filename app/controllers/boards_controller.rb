@@ -1,29 +1,40 @@
 class BoardsController < ApplicationController
 
   def index
-    @collection = Board.all
-    render json: @collection
+    render json: Board.all
   end
 
   def show
-    @resource = Board.where(:id => params[:id]).first
-    render json: @resource
+    render json: search_service.board
   end
 
   def create
-    @resource = Board.create(params[:board])
-    render json: @resource
+    render json: create_service.board
   end
 
   def update
-    @resource = Board.where(:id => params[:id]).first
-    @resource.update(params[:board])
-    render json: @resource
+    render json: update_service.board
   end
 
   def destroy
-    @resource = Board.where(:id => params[:id]).first
-    @resource.destroy
-    render json: @resource
+    render json: delete_service.board
+  end
+
+  private
+
+  def search_service
+    @search_service ||= BoardsServices.search_service(params[:id])
+  end
+
+  def create_service
+    @create_service ||= BoardsServices.create_service(params.require(:board).permit(:title, :description))
+  end
+
+  def update_service
+    @update_service ||= BoardsServices.update_service(params[:id], require(:board).permit(:title, :description))
+  end
+
+  def delete_service
+    @delete_service || BoardsServices.delete_service(params[:id])
   end
 end

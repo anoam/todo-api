@@ -77,7 +77,6 @@ RSpec.describe BoardsController, type: :controller do
     end
 
     it 'creates new board' do
-      pending 'legacy'
       expect { post(:create, board: { title: 'my title', description: 'my descr' }) }
           .to change { Board.where(title: 'my title', description: 'my descr').count }.from(0).to(1)
 

@@ -1,3 +1,6 @@
 FactoryBot.define do
-  factory :board
+  factory :board do
+    sequence(:title) { |n| "board title #{n}" }
+    sequence(:description) { |n| "board description #{n}" }
+  end
 end
