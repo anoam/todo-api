@@ -9,7 +9,7 @@ module TasksServices
       @params = params
     end
 
-    def valid?
+    def params_valid?
       return false unless task
 
       task.valid?

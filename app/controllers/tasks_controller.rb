@@ -1,26 +1,57 @@
 class TasksController < ApplicationController
+
   def index
-    render json: find_multiple_service.tasks
+    if !find_multiple_service.found?
+      render json: { errors: ["board not found"]}, status: :not_found
+    else
+      render json: find_multiple_service.tasks
+    end
   end
 
   def show
-    render json: find_one_service.task
+    if !find_one_service.found?
+      render json: { errors: ["task not found"]}, status: :not_found
+    else
+      render json: find_one_service.task
+    end
   end
 
   def create
-    render json: create_service.task
+    if !create_service.found?
+      render json: { errors: ["board not found"]}, status: :not_found
+    elsif !create_service.params_valid?
+      render json: { errors: create_service.errors}, status: :unprocessable_entity
+    else
+      render json: create_service.task, status: :created
+    end
   end
 
   def complete
-    render json: complete_service.task
+    if !complete_service.found?
+      render json: { errors: ["task not found"]}, status: :not_found
+    elsif !complete_service.params_valid?
+      render json: { errors: complete_service.errors }, status: :unprocessable_entity
+    else
+      render json: complete_service.task
+    end
   end
 
   def update
-    render json: update_service.task
+    if !update_service.found?
+      render json: { errors: ["task not found"]}, status: :not_found
+    elsif !update_service.params_valid?
+      render json: { errors: update_service.errors }, status: :unprocessable_entity
+    else
+      render json: update_service.task
+    end
   end
 
   def destroy
-    render json: delete_service.task
+    if !delete_service.found?
+      render json: { errors: ["task not found"] }, status: :not_found
+    else
+      render json: delete_service.task, status: :no_content
+    end
   end
 
   private

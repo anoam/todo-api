@@ -9,6 +9,9 @@ module TasksServices
       @errors = []
     end
 
+    def params_valid?
+      errors.empty?
+    end
 
     def task
       search_service.task
@@ -26,7 +29,7 @@ module TasksServices
     def run
       return unless found?
       unless task.can_complete?
-        error.push("can't complete")
+        errors.push("can't complete")
         return
       end
 

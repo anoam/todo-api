@@ -5,6 +5,10 @@ class Task < ActiveRecord::Base
   scope :completed, -> { where.not(completed_at: nil) }
   scope :incompleted, -> { where(completed_at: nil) }
 
+
+  validates :title, presence: true
+  validates :description, presence: true
+
   def completed?
     completed_at.present?
   end

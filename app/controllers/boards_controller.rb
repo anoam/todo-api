@@ -42,7 +42,7 @@ class BoardsController < ApplicationController
   private
 
   def render_not_found
-    render json: { errors: "board not found" }, status: :not_found
+    render json: { errors: ["board not found"] }, status: :not_found
   end
 
   def render_unprocessable_entity(service)
