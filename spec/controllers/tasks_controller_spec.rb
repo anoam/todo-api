@@ -7,7 +7,6 @@ RSpec.describe TasksController, type: :controller do
   describe '#GET index' do
 
     it 'returns empty collection when no tasks' do
-
       board = create(:board)
       get :index, board_id: board.id
       expect(data).to eql([])

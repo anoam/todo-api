@@ -1,18 +1,17 @@
 class TasksController < ApplicationController
   def index
     @collection = Task.where(board_id: params[:board_id])
-
-    if(params["type"] != nil)
-      case params['type'].to_sym
-      when :completed
-        @collection = @collection.where("completed_at is not null")
-      when :incompleted
-        @collection = @collection.where(completed_at: nil)
+    @collection =
+      case params['type']
+      when 'completed'
+        @collection.completed
+      when 'incompleted'
+        @collection.incompleted
+      else
+        @collection
       end
-    end
    
     render json: @collection
-
   end
 
   def show
