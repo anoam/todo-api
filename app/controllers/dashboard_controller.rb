@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  def index()
+  def index
     total_boards = Board.all.count
     
     total_tasks = Board.all.inject(0) do |a, e|
