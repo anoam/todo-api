@@ -6,7 +6,7 @@ class BoardsController < ApplicationController
 
   def show
     if !search_service.found?
-      render json: { errors: "board not found" }, status: :not_found
+      render_not_found
     else
       render json: search_service.board
     end
@@ -14,7 +14,7 @@ class BoardsController < ApplicationController
 
   def create
     if !create_service.params_valid?
-      render json: { errors: create_service.errors }, status: :unprocessable_entity
+      render_unprocessable_entity(create_service)
     else
       render json: create_service.board, status: :created
     end
@@ -22,9 +22,9 @@ class BoardsController < ApplicationController
 
   def update
     if !update_service.found?
-      render json: { errors: "board not found" }, status: :not_found
+      render_not_found
     elsif !update_service.params_valid?
-      render json: { errors: update_service.errors }, status: :unprocessable_entity
+      render_unprocessable_entity(update_service)
     else
       render json: update_service.board
     end
@@ -33,13 +33,21 @@ class BoardsController < ApplicationController
 
   def destroy
     if !delete_service.found?
-      render json: { errors: "board not found" }, status: :not_found
+      render_not_found
     else
       render json: '', status: :no_content
     end
   end
 
   private
+
+  def render_not_found
+    render json: { errors: "board not found" }, status: :not_found
+  end
+
+  def render_unprocessable_entity(service)
+    render json: { errors: service.errors }, status: :unprocessable_entity
+  end
 
   def search_service
     @search_service ||= BoardsServices.search_service(params[:id])
