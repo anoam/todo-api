@@ -157,7 +157,7 @@ RSpec.describe TasksController, type: :controller do
       post :complete, id: task.id
 
       expect(response.status).to eql(422)
-      expect(errors).to include('already completed')
+      expect(errors).to include("can't complete")
     end
 
     it "returns task" do

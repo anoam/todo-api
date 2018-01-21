@@ -1,8 +1,8 @@
-module BoardsServices
+module TasksServices
+
   class Delete
-
     delegate :found?, to: :find_service
-
+    delegate :task, to: :find_service #legacy
     def initialize(id)
       @id = id
     end
@@ -12,11 +12,11 @@ module BoardsServices
 
     def run
       return unless found?
-      find_service.board.tap(&:destroy)
+      task.tap(&:destroy)
     end
 
     def find_service
-      @find_service ||= Find.new(id)
+      @find_service ||= FindOne.new(id)
     end
   end
 end

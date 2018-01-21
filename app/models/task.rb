@@ -4,4 +4,19 @@ class Task < ActiveRecord::Base
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :incompleted, -> { where(completed_at: nil) }
+
+  def completed?
+    completed_at.present?
+  end
+
+  def can_complete?
+    !completed?
+  end
+
+  def complete!
+    raise("Cant complete!") unless can_complete?
+
+    self.completed_at = Time.now
+  end
+
 end
